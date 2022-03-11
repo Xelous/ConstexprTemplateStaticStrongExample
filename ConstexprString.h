@@ -2,6 +2,11 @@
 
 namespace xelous::ConstExpr
 {
+  constexpr bool Compare(const char* const pLeft, const char* const pRight)
+  {
+      return (*pLeft == *pRight) && (*pLeft == '\0' || Compare(pLeft + 1, pRight + 1));
+  }
+  
   template<std::size_t Length>
   struct TemplateString
   {
