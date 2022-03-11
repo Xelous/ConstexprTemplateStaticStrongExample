@@ -1,8 +1,8 @@
 #pragma once
 
-namespace xelous::constexpr
+namespace xelous::ConstExpr
 {
-  constexpr template<std::size_t Length>
+  template<std::size_t Length>
   struct TemplateString
   {
     // Constructor is constexpr and simply copies the payload text
