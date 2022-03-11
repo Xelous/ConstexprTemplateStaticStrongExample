@@ -10,7 +10,7 @@ struct Service
   virtual void DoWork() = 0;
 };
 
-template<xelous::constexpr::TemplateString Name>
+template<xelous::ConstExpr::TemplateString Name>
 struct NamedService : public Service
 {
     constexpr static auto sServiceName { Name.mText };     
@@ -20,16 +20,19 @@ struct NamedService : public Service
 
 struct MyService : public NamedService<"ExampleService">
 {
-  void DoWork() { std::cout << sServiceName << " is working" << std::endl };
+  void DoWork() { std::cout << sServiceName << " is working" << std::endl; };
 };
 
 struct OtherService : public NamedService<"OtherService">
 {
-  void DoWork() { std::cout << sServiceName << " is working, but does something different" << std::endl };
+  void DoWork() { std::cout << sServiceName << " is working, but does something different" << std::endl; };
 };
 
 int main()
 {      
+  static_assert(xelous::ConstExpr::Compare(MyService::sServiceName, "ExampleService"));
+  static_assert(xelous::ConstExpr::Compare(OtherService::sServiceName, "OtherService"));
+  
   std::cout << "Service Name: " << MyService::sServiceName << std::endl;
   std::cout << "Service Name: " << OtherService::sServiceName << std::endl;
   
@@ -41,7 +44,7 @@ int main()
   
   // Owning pointers
   std::unique_ptr<MyService> myServicePtr = std::make_unique<MyService>();
-  std::unique_ptr<OtherSerivice> otherServicePtr = std::make_unique<OtherService>();
+  std::unique_ptr<OtherService> otherServicePtr = std::make_unique<OtherService>();
   
   // Non-owning pointers or base type in use to do generic work
   std::vector<Service*> services;
